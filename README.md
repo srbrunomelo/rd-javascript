@@ -3,16 +3,14 @@
 
 No terminal, execute os comandos:
 
-```bash
-cd javascript
+```bash 
 yarn
 yarn test
 ```
 
 Ou usando o NPM:
 
-```bash
-cd javascript
+```bash 
 npm install
 npm test
 ```
