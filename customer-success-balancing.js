@@ -11,24 +11,24 @@ function customerSuccessBalancing(
 ) { 
   let customersList = handleSorting(customers)
   let customerSuccessList =  handleSorting(customerSuccess)
-  const csHasMoreCustomers = { repeat: false, idCs: 0, customers: 0 }
+  const report = { draw: false, idCs: 0, customers: 0 }
 
   customerSuccessList.forEach(cs => {
     if (!customerSuccessAway.includes(cs.id)) {
       const filterCustomers = customersList.filter(customer => customer.score <= cs.score);
-      if (csHasMoreCustomers.customers <= filterCustomers.length) {
-        csHasMoreCustomers.repeat = csHasMoreCustomers.customers === filterCustomers.length 
-        csHasMoreCustomers.idCs = cs.id
-        csHasMoreCustomers.customers = filterCustomers.length
+      if (report.customers <= filterCustomers.length) {
+        report.draw = report.customers === filterCustomers.length 
+        report.idCs = cs.id
+        report.customers = filterCustomers.length
       }
        
       customersList.splice(0, filterCustomers.length)
     }
   })
  
-  if (csHasMoreCustomers.repeat) return 0
+  if (report.draw) return 0
     
-  return csHasMoreCustomers.idCs
+  return report.idCs
 }
 
 /**
