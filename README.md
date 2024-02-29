@@ -14,3 +14,7 @@ Ou usando o NPM:
 npm install
 npm test
 ```
+
+## Test
+
+![Print](https://github.com/srbrunomelo/rd-javascript/blob/master/prints/print-01.png?raw=true "Print.")
