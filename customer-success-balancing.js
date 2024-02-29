@@ -8,13 +8,36 @@ function customerSuccessBalancing(
   customerSuccess,
   customers,
   customerSuccessAway
-) {
-  /**
-   * ===============================================
-   * =========== Write your solution here ==========
-   * ===============================================
-   */
+) { 
+  let customersList = handleSorting(customers)
+  let customerSuccessList =  handleSorting(customerSuccess)
+  const csHasMoreCustomers = { repeat: false, idCs: 0, customers: 0 }
+
+  customerSuccessList.forEach(cs => {
+    if (!customerSuccessAway.includes(cs.id)) {
+      const filterCustomers = customersList.filter(customer => customer.score <= cs.score);
+      if (csHasMoreCustomers.customers <= filterCustomers.length) {
+        csHasMoreCustomers.repeat = csHasMoreCustomers.customers === filterCustomers.length 
+        csHasMoreCustomers.idCs = cs.id
+        csHasMoreCustomers.customers = filterCustomers.length
+      }
+       
+      customersList.splice(0, filterCustomers.length)
+    }
+  })
+ 
+  if (csHasMoreCustomers.repeat) return 0
+    
+  return csHasMoreCustomers.idCs
 }
+
+/**
+ * Return a sorted array
+ * @param {array} collection
+ */
+function handleSorting(collection){
+  return [...collection.sort((a, b) => a.score - b.score)]
+} 
 
 test("Scenario 1", () => {
   const css = [
@@ -35,7 +58,7 @@ test("Scenario 1", () => {
 
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(1);
 });
-
+ 
 function buildSizeEntities(size, score) {
   const result = [];
   for (let i = 0; i < size; i += 1) {
@@ -70,9 +93,9 @@ test("Scenario 3", () => {
   const css = mapEntities(arraySeq(999, 1));
   const customers = buildSizeEntities(10000, 998);
   const csAway = [999];
-
+ 
   expect(customerSuccessBalancing(css, customers, csAway)).toEqual(998);
-
+  
   if (new Date().getTime() - testStartTime > testTimeoutInMs) {
     throw new Error(`Test took longer than ${testTimeoutInMs}ms!`);
   }
